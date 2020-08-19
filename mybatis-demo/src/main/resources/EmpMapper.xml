@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    namespace:编写接口的全类名,就是告诉要实现该配置文件是哪个接口的具体实现
+-->
+<mapper namespace="com.yubin.mybatis.dao.EmpDao">
+    <!--
+        select:表示这个操作是一个查询操作
+        id:表示的是要匹配的方法名称
+        resultType:表示返回值的类型,查询操作必须要包含返回值的类型
+        #{属性名}:表示要传递的参数的名称
+    -->
+    <select id="selectEmpByEmpno" resultType="com.yubin.mybatis.pojo.Emp">
+        select * from emp where empno = #{empno}
+    </select>
+
+    <!--增删改查操作不需要返回值，增删改返回的是影响的行数，mybatis会自动做判断-->
+
+    <insert id="save">
+        insert into emp(empno,ename) values (#{empno}, #{ename})
+    </insert>
+
+    <update id="update">
+        update emp set ename=#{ename},sal=#{sal} where empno=#{empno}
+    </update>
+
+    <delete id="delete">
+        delete from emp where empno=#{empno}
+    </delete>
+</mapper>
