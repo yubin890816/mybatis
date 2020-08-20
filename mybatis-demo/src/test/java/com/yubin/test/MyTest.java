@@ -1,7 +1,11 @@
 package com.yubin.test;
 
 import com.yubin.mybatis.dao.EmpDao;
+import com.yubin.mybatis.dao.UserAnnotationDao;
+import com.yubin.mybatis.dao.UserClassDao;
+import com.yubin.mybatis.dao.UserDao;
 import com.yubin.mybatis.pojo.Emp;
+import com.yubin.mybatis.pojo.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -86,5 +90,35 @@ public class MyTest {
         sqlSession.commit();
 
         sqlSession.close();
+    }
+
+    /**
+     * 驼峰匹配的演示
+     */
+    @Test
+    public void test5() {
+        UserDao mapper = sqlSession.getMapper(UserDao.class);
+        User user = mapper.selectUserById(1);
+        System.out.println(user);
+    }
+
+    /**
+     * 演示<mapper>标签的class属性 注解形式
+     */
+    @Test
+    public void test6() {
+        UserAnnotationDao mapper = sqlSession.getMapper(UserAnnotationDao.class);
+        User user = mapper.selectUserById(1);
+        System.out.println(user);
+    }
+
+    /**
+     * 演示<mapper>标签的class属性带mapper.xml
+     */
+    @Test
+    public void test7() {
+        UserClassDao mapper = sqlSession.getMapper(UserClassDao.class);
+        User user = mapper.selectUserById(1);
+        System.out.println(user);
     }
 }

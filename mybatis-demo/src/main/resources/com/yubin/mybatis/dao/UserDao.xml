@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    namespace:编写接口的全类名,就是告诉要实现该配置文件是哪个接口的具体实现
+-->
+<mapper namespace="com.yubin.mybatis.dao.UserDao">
+    <!--
+        select:表示这个操作是一个查询操作
+        id:表示的是要匹配的方法名称
+        resultType:表示返回值的类型,查询操作必须要包含返回值的类型
+        #{属性名}:表示要传递的参数的名称
+    -->
+    <!--<select id="selectUserById" resultType="com.yubin.mybatis.pojo.User">-->
+    <select id="selectUserById" resultType="User" databaseId="mysql">
+        select * from user where id = #{id}
+    </select>
+
+    <select id="selectUserById" resultType="User" databaseId="oracle">
+        select * from user where id = #{id}
+    </select>
+
+</mapper>
