@@ -8,16 +8,70 @@
 <mapper namespace="com.yubin.mybatis.dao.EmpDao">
     <!--
         select:表示这个操作是一个查询操作
-        id:表示的是要匹配的方法名称
-        resultType:表示返回值的类型,查询操作必须要包含返回值的类型
+        id:在命名空间中唯一的标识符，可以被用来引用这条语句。必须与接口的方法名称一致
+        resultType:表示返回值的类型,查询操作必须要包含返回值的类型（一般用的并不多,此类型只能返回单一的对象,而我们在查询的时候特别的关联查询的时候,需要自定义结果集）
+                    当返回的是一个结果集合的时候,如果使用resultType只需指定集合中元素的类型即可
+        resultMap:对外部 resultMap 的命名引用。结果映射是 MyBatis 最强大的特性，如果你对其理解透彻，许多复杂的映射问题都能迎刃而解。 resultType 和 resultMap 之间只能同时使用一个。
+                    当进行关联查询的时候,在返回结果的对象中还包含另一个对象的引用时,此时需要自定义结果集合,使用resultMap(其也是解决数据库字段与java类的属性字段不匹配的方式之一)
         #{属性名}:表示要传递的参数的名称
     -->
     <select id="selectEmpByEmpno" resultType="com.yubin.mybatis.pojo.Emp">
         select * from emp where empno = #{empno}
     </select>
 
-    <!--增删改查操作不需要返回值，增删改返回的是影响的行数，mybatis会自动做判断-->
+    <!--
+        当查询语句(即方法的参数列表)中包含多个参数的时候,如果使用#{署名名称},就无法获取到具体的值了,那么该如果使用呢?
+        下面就是mybatis的参数传递方式:
+        1、如果是单个参数：
+            基本类型: 使用#{随便写}
+            引用类型: 使用#{类的属性名称}
+        2、多个参数:
+            当查询的时候传入多个参数的时候,就无法简单的通过#{参数名}来获取值了,
+            只能通过arg0,arg1...或者param1,param2...等方式来获取值
+            原因就在于,mybatis在传入多个参数的时候,会将这些参数封装到一个map中,此时map中的key就是arg0,arg1,param1,param2...这些值,但是很明显,这样的传值方式不是很友好,没有办法根据参数的名称来获取具体的值,因此可以使用如下的方式来指定参数的key是什么
+            public Emp selectEmpByNoAndName(@Param("empno") Integer empno, @Param("ename") String ename);
+            也就是用过@param来指定存入map中的key的值是什么
+        3、使用map来传递参数
+    -->
+    <select id="selectEmpByNoAndName1" resultType="com.yubin.mybatis.pojo.Emp">
+        select * from emp where empno = #{empno} and ename=#{ename}
+    </select>
 
+    <select id="selectEmpByNoAndName2" resultType="com.yubin.mybatis.pojo.Emp">
+        select * from emp where empno = #{empno} and ename=#{ename}
+    </select>
+
+    <!--当返回的结果是List集合的时候,返回值的类型依然写的是集合中具体的类型-->
+    <select id="selectAll" resultType="com.yubin.mybatis.pojo.Emp">
+        select * from emp
+    </select>
+
+    <!--在查询的时候依然可以设置返回值的类型为map,当mybatis查询完成之后会把列的名称作为key,列的值作为value,转到map中-->
+    <select id="selectEmpByEmpnoReturnMap" resultType="map">
+        select * from emp where empno=#{empno}
+    </select>
+
+    <!--注意:当返回的结果是一个Map集合对象的时候,返回值的类型一定要写具有的value的类型,同时在dao的方法上必须要添加@MapKey的注解,来设置key是什么结果-->
+    <select id="selectAll2" resultType="com.yubin.mybatis.pojo.Emp">
+        select * from emp
+    </select>
+
+    <!--增删改查操作不需要返回值，增删改返回的是影响的行数，mybatis会自动做判断-->
+    <!--
+        insert、delete、update分别用来表示不同类型的语句
+        id: 在命名空间中唯一的标识符，可以被用来引用这条语句。如果省略dao实现类的话,id的属性值必须和接口的方法名一致
+        parameterType: 将会传入这条语句的参数的类全限定名或别名。这个属性是可选的，因为 MyBatis 可以通过类型处理器（TypeHandler）推断出具体传入语句的参数，默认值为未设置（unset）。
+        flushCache: 将其设置为 true 后，只要语句被调用，都会导致本地缓存和二级缓存被清空，默认值：（对 insert、update 和 delete 语句）true。
+        timeout: 这个设置是在抛出异常之前，驱动程序等待数据库返回请求结果的秒数。默认值为未设置（unset）（依赖数据库驱动）。
+        statementType: 用来选择执行sql语句的方式
+            STATEMENT: 最基本的sql语句操作,用来表示一个sql语句,不能防止sql注入
+            PREPARED: preparedStatement, 采用预编译的方式,能够防止sql注入,设置参数的时候需要该对象来设置
+            CALLABLE: 调用存储过程
+        useGeneratedKeys: （仅适用于insert和update）这会令MyBatis使用JDBC的getGeneratedKeys方法来取出由数据库内部生成的主键
+            （比如：像 MySQL和SQL Server这样的关系型数据库管理系统的自动递增字段），默认值：false。
+            keyProperty: 指定返回的主键要赋值到哪个属性中去(一般使用的时候与useGeneratedKeys联合使用)
+
+    -->
     <insert id="save">
         insert into emp(empno,ename) values (#{empno}, #{ename})
     </insert>

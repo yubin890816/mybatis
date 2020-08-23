@@ -21,4 +21,9 @@
         select * from user where id = #{id}
     </select>
 
+    <!--演示userGeneratedKeys和keyProperty属性的使用-->
+    <insert id="saveUser" useGeneratedKeys="true" keyProperty="id">
+        insert into user(user_name) values(#{userName})
+    </insert>
+
 </mapper>

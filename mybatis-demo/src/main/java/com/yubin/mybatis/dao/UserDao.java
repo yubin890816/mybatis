@@ -11,4 +11,6 @@ import com.yubin.mybatis.pojo.User;
 public interface UserDao {
 
     public User selectUserById(Integer id);
+
+    public Integer saveUser(User user);
 }
