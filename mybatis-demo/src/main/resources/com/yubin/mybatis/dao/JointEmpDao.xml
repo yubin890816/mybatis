@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    namespace:编写接口的全类名,就是告诉要实现该配置文件是哪个接口的具体实现
+-->
+<mapper namespace="com.yubin.mybatis.dao.JointEmpDao">
+
+    <!--
+        在做查询的时候有时候需要关联其它对象,因此需要使用关联查询
+        可以通过下面自定义结果集的方式实现
+    -->
+    <select id="selectEmpByEmpno" resultMap="myEmp">
+        select * from emp left join dept on emp.deptno = dept.deptno where empno = #{empno}
+    </select>
+
+    <!-- 将每一个属性值都映射成对象中的数据,如果有实体类对象,就写成对象.属性的方式 -->
+    <!--<resultMap id="myEmp" type="com.yubin.mybatis.pojo.JointEmp">
+        <id column="empno" property="empno"/>
+        <result column="ename" property="ename"/>
+        <result column="job" property="job"/>
+        <result column="mgr" property="mgr"/>
+        <result column="hiredate" property="hiredate"/>
+        <result column="sal" property="sal"/>
+        <result column="deptno" property="dept.deptno"/>
+        <result column="dname" property="dept.dname"/>
+        <result column="loc" property="dept.loc"/>
+    </resultMap>-->
+
+    <resultMap id="myEmp" type="com.yubin.mybatis.pojo.JointEmp">
+        <id column="empno" property="empno"/>
+        <result column="ename" property="ename"/>
+        <result column="job" property="job"/>
+        <result column="mgr" property="mgr"/>
+        <result column="hiredate" property="hiredate"/>
+        <result column="sal" property="sal"/>
+        <!--在mybatis中还提供了一种简单的形式，使用association标签可以搞定-->
+        <association property="dept" javaType="com.yubin.mybatis.pojo.JointDept">
+            <id column="deptno" property="deptno"/>
+            <result column="dname" property="dname"/>
+            <result column="loc" property="loc"/>
+        </association>
+    </resultMap>
+</mapper>

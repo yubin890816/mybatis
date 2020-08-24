@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    namespace:编写接口的全类名,就是告诉要实现该配置文件是哪个接口的具体实现
+-->
+<mapper namespace="com.yubin.mybatis.dao.JointDeptDao">
+
+    <!--
+        在做查询的时候有时候需要关联其它对象,因此需要使用关联查询
+        可以通过下面自定义结果集的方式实现
+    -->
+    <select id="getDeptAndEmps" resultMap="myDept">
+        select * from dept left join emp on emp.deptno = dept.deptno where dept.deptno = #{deptno}
+    </select>
+
+    <resultMap id="myDept" type="com.yubin.mybatis.pojo.JointDept">
+        <id property="deptno" column="deptno"></id>
+        <result property="dname" column="dname"></result>
+        <result property="loc" column="loc"></result>
+        <!--封装集合类的元素
+            property：指定集合的属性
+            ofType:指定集合中的元素类型
+        -->
+        <collection property="empList" ofType="com.yubin.mybatis.pojo.JointEmp">
+            <id property="empno" column="empno"></id>
+            <result column="ename" property="ename"></result>
+            <result column="job" property="job"></result>
+            <result column="mgr" property="mgr"></result>
+            <result column="hiredate" property="hiredate"></result>
+            <result column="sal" property="sal"></result>
+            <result column="comm" property="common"></result>
+        </collection>
+    </resultMap>
+</mapper>

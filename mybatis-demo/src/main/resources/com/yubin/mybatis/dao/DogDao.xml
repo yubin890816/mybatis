@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yubin.mybatis.dao.DogDao">
+
+    <!--
+        自定义结果集，将每一个列的数据跟javaBean的对象属性对应起来
+        type:表示为哪一个javaBean对象进行对应
+        id:当前结果集的唯一标识，方便其他属性标签进行引用
+    -->
+    <resultMap id="myDog" type="com.yubin.mybatis.pojo.Dog">
+
+        <!--
+            id:指定主键列的对应规则
+                column：表示表中的字段的名称
+                property:指定javaBean的属性
+                typeHandler:类型处理器(mybatis已经提供了比较完整的类型处理器机制,一般我们自己都不写)
+                javaType:指定java属性的类型(可以不写，mybatis自己会做转换)
+                jdbcType:指定数据库列的类型(可以不写，mybatis自己会做转换)
+        -->
+
+        <id column="id" property="id"/>
+        <!--设置其他列的对应关系-->
+        <result column="dname" property="name"/>
+        <result column="dage" property="age"/>
+        <result column="dgender" property="gender"/>
+    </resultMap>
+    
+    <!--
+        在使用mybatis进行查询的时候,mybatis默认会帮我们进行结果的封装,但是要求列名和属性名称一一对应上
+        在实际的使用过程中,我们会发现有时候数据库中的列名跟我们的类中的属性并不是一一对应的,此时就需要起别名
+        起别名有两种实现方式:
+        1、在编写sql语句的时候添加别名
+        2、自定义封装结果集
+    -->
+    <!--这种方式是查询不到任何结果的，因为属性名跟列名并不是一一对应的-->
+    <!--<select id="selectDogById" resultType="com.yubin.mybatis.pojo.Dog">
+        select * from dog where id = #{id}
+    </select>-->
+
+    <!--可以在sql语句中写别名-->
+    <!--<select id="selectDogById" resultType="com.yubin.mybatis.pojo.Dog">
+        select id,dname name,dage age,dgender gender from dog where id = #{id}
+    </select>-->
+
+    <!--根据查询的数据进行结果的封装,使用resultMa属性,表示使用自定义规则-->
+    <select id="selectDogById" resultMap="myDog">
+        select * from dog where id = #{id}
+    </select>
+</mapper>

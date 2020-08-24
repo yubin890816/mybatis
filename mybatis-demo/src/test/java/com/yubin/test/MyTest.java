@@ -1,11 +1,7 @@
 package com.yubin.test;
 
-import com.yubin.mybatis.dao.EmpDao;
-import com.yubin.mybatis.dao.UserAnnotationDao;
-import com.yubin.mybatis.dao.UserClassDao;
-import com.yubin.mybatis.dao.UserDao;
-import com.yubin.mybatis.pojo.Emp;
-import com.yubin.mybatis.pojo.User;
+import com.yubin.mybatis.dao.*;
+import com.yubin.mybatis.pojo.*;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -200,6 +196,39 @@ public class MyTest {
         EmpDao mapper = sqlSession.getMapper(EmpDao.class);
         Map<Integer, Emp> map = mapper.selectAll2();
         System.out.println(map);
+        sqlSession.close();
+    }
+
+    /**
+     *  自定义结果集ResultMap测试方法
+     */
+    @Test
+    public void test14() {
+        DogDao mapper = sqlSession.getMapper(DogDao.class);
+        Dog dog = mapper.selectDogById(1);
+        System.out.println(dog);
+        sqlSession.close();
+    }
+
+    /**
+     *  联合查询测试类
+     */
+    @Test
+    public void test15() {
+        JointEmpDao mapper = sqlSession.getMapper(JointEmpDao.class);
+        JointEmp emp = mapper.selectEmpByEmpno(7369);
+        System.out.println(emp);
+        sqlSession.close();
+    }
+
+    /**
+     *  测试获取关联查询的集合查询
+     */
+    @Test
+    public void test16() {
+        JointDeptDao mapper = sqlSession.getMapper(JointDeptDao.class);
+        JointDept dept = mapper.getDeptAndEmps(10);
+        System.out.println(dept);
         sqlSession.close();
     }
 }
