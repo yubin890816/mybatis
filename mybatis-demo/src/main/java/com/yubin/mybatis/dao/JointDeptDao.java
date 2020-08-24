@@ -11,4 +11,8 @@ import com.yubin.mybatis.pojo.JointDept;
 public interface JointDeptDao {
 
     public JointDept getDeptAndEmps(Integer deptno);
+
+    public JointDept selectDeptBySimple(Integer deptno);
+
+    public JointDept selectDeptByStep(Integer deptno);
 }

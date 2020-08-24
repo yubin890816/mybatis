@@ -231,4 +231,38 @@ public class MyTest {
         System.out.println(dept);
         sqlSession.close();
     }
+
+    /**
+     *  分步查询测试
+     */
+    @Test
+    public void test17() {
+        JointEmpDao mapper = sqlSession.getMapper(JointEmpDao.class);
+        JointEmp emp = mapper.selectEmpBySimple(7369);
+        System.out.println(emp);
+        sqlSession.close();
+    }
+
+    /**
+     *  集合的分步查询测试
+     */
+    @Test
+    public void test18() {
+        JointDeptDao mapper = sqlSession.getMapper(JointDeptDao.class);
+        JointDept dept = mapper.selectDeptByStep(10);
+        System.out.println(dept);
+        sqlSession.close();
+    }
+
+    /**
+     *  延时加载测试类
+     */
+    @Test
+    public void test19() {
+        JointDeptDao mapper = sqlSession.getMapper(JointDeptDao.class);
+        JointDept dept = mapper.selectDeptByStep(10);
+        System.out.println(dept.getDname());
+        System.out.println(dept.getEmpList());
+        sqlSession.close();
+    }
 }

@@ -33,4 +33,20 @@
             <result column="comm" property="common"></result>
         </collection>
     </resultMap>
+
+    <select id="selectDeptBySimple" resultType="com.yubin.mybatis.pojo.JointDept">
+        select * from dept where deptno=#{deptno}
+    </select>
+
+    <select id="selectDeptByStep" resultMap="deptEmp">
+        select * from dept where deptno=#{deptno}
+    </select>
+
+    <resultMap id="deptEmp" type="com.yubin.mybatis.pojo.JointDept">
+        <id property="deptno" column="deptno"></id>
+        <result property="dname" column="dname"></result>
+        <result property="loc" column="loc"></result>
+        <!--集合的分步查询-->
+        <collection property="empList" fetchType="lazy" ofType="com.yubin.mybatis.pojo.JointEmp" select="com.yubin.mybatis.dao.JointEmpDao.selectEmpStep" column="deptno"></collection>
+    </resultMap>
 </mapper>

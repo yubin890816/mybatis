@@ -42,4 +42,25 @@
             <result column="loc" property="loc"/>
         </association>
     </resultMap>
+
+
+
+    <!--关联查询中的分步查询-->
+    <select id="selectEmpBySimple" resultMap="empDept">
+        select * from emp where empno=#{empno}
+    </select>
+
+    <resultMap id="empDept" type="com.yubin.mybatis.pojo.JointEmp">
+        <id column="empno" property="empno"/>
+        <result column="ename" property="ename"/>
+        <result column="job" property="job"/>
+        <result column="mgr" property="mgr"/>
+        <result column="hiredate" property="hiredate"/>
+        <result column="sal" property="sal"/>
+        <association property="dept" select="com.yubin.mybatis.dao.JointDeptDao.selectDeptBySimple" column="deptno"></association>
+    </resultMap>
+
+    <select id="selectEmpStep" resultType="com.yubin.mybatis.pojo.JointEmp">
+        select * from emp where deptno=#{deptno}
+    </select>
 </mapper>
