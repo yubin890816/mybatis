@@ -23,7 +23,7 @@ public class JointEmp {
 
     private BigDecimal sal;
 
-    private BigDecimal common;
+    private BigDecimal comm;
 
     private JointDept dept;
 
@@ -75,12 +75,12 @@ public class JointEmp {
         this.sal = sal;
     }
 
-    public BigDecimal getCommon() {
-        return common;
+    public BigDecimal getComm() {
+        return comm;
     }
 
-    public void setCommon(BigDecimal common) {
-        this.common = common;
+    public void setComm(BigDecimal comm) {
+        this.comm = comm;
     }
 
     public JointDept getDept() {
@@ -100,7 +100,7 @@ public class JointEmp {
                 ", mgr=" + mgr +
                 ", hiredate=" + hiredate +
                 ", sal=" + sal +
-                ", common=" + common +
+                ", comm=" + comm +
                 ", dept='" + dept + '\'' +
                 '}';
     }

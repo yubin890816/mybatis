@@ -63,4 +63,91 @@
     <select id="selectEmpStep" resultType="com.yubin.mybatis.pojo.JointEmp">
         select * from emp where deptno=#{deptno}
     </select>
+
+    <select id="selectEmpByCondition" resultType="com.yubin.mybatis.pojo.JointEmp">
+        select * from emp
+        <where>
+            <if test="empno != null">
+                empno = #{empno}
+            </if>
+            <if test="ename != null">
+                and ename = #{ename}
+            </if>
+            <if test="sal != null">
+                and sal > #{sal}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectEmpByCondition2" resultType="com.yubin.mybatis.pojo.JointEmp">
+        select * from emp
+        <!--
+            trim:截取字符串
+            prefix:前缀,为sql整体添加一个前缀
+            prefixOverrides: 去除整体字符串前面多余的字符
+            suffix: 后缀,为sql整体添加一个后缀
+            suffixOverrides: 去除整体字符串后面多余的字符
+        -->
+        <trim prefix="where" prefixOverrides="and | or" suffix=";" suffixOverrides="and | or">
+
+            <if test="empno != null">
+                empno = #{empno} and
+            </if>
+            <if test="ename != null">
+                ename = #{ename} and
+            </if>
+            <if test="sal != null">
+                sal > #{sal}
+            </if>
+        </trim>
+    </select>
+
+    <select id="selectEmpByEmpNos" resultType="com.yubin.mybatis.pojo.JointEmp">
+        select * from emp
+        <!--
+            foreach:是对集合进行遍历
+                collection: 指定要遍历的集合,集合默认的名称是:collection, list
+                open: 表示以什么开始
+                close: 表示以什么结束
+                index: 给定一个索引值
+                item: 遍历的每一个元素的值
+                separator: 表示多个元素的分隔符
+        -->
+        <foreach collection="empnos" open="where empno in(" close=")" index="idx" item="empno" separator=",">
+            #{empno}
+        </foreach>
+    </select>
+
+    <select id="selectEmpByConditionChoose" resultType="com.yubin.mybatis.pojo.JointEmp">
+        select * from emp
+        <where>
+            <choose>
+                <when test="empno != null">
+                    empno = #{empno}
+                </when>
+                <when test="ename != null">
+                    and ename = #{ename}
+                </when>
+                <otherwise>
+                    and sal > 100
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <update id="updateEmpByEmpno">
+        update emp
+        <set>
+            <if test="ename != null">
+                ename = #{ename},
+            </if>
+            <if test="sal != null">
+                sal = #{sal},
+            </if>
+            <if test="comm != null">
+                comm = #{comm}
+            </if>
+        </set>
+        where empno = #{empno}
+    </update>
 </mapper>

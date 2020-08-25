@@ -12,6 +12,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -264,5 +265,61 @@ public class MyTest {
         System.out.println(dept.getDname());
         System.out.println(dept.getEmpList());
         sqlSession.close();
+    }
+
+    @Test
+    public void test20() {
+        JointEmpDao mapper = sqlSession.getMapper(JointEmpDao.class);
+        JointEmp emp = new JointEmp();
+        //emp.setEmpno(7369);
+        //emp.setEname("刘一");
+        emp.setSal(new BigDecimal("100"));
+        List<JointEmp> jointEmps = mapper.selectEmpByCondition(emp);
+        System.out.println(jointEmps);
+    }
+
+    @Test
+    public void test21() {
+        JointEmpDao mapper = sqlSession.getMapper(JointEmpDao.class);
+        JointEmp emp = new JointEmp();
+        emp.setEmpno(7369);
+        //emp.setEname("刘一");
+        //emp.setSal(new BigDecimal("100"));
+        List<JointEmp> jointEmps = mapper.selectEmpByCondition2(emp);
+        System.out.println(jointEmps);
+    }
+
+    @Test
+    public void test22() {
+        JointEmpDao mapper = sqlSession.getMapper(JointEmpDao.class);
+        List<Integer> empnos = new ArrayList<>();
+        empnos.add(7369);
+        empnos.add(7499);
+        empnos.add(7521);
+        List<JointEmp> jointEmps = mapper.selectEmpByEmpNos(empnos);
+        System.out.println(jointEmps);
+    }
+
+    @Test
+    public void test23() {
+        JointEmpDao mapper = sqlSession.getMapper(JointEmpDao.class);
+        JointEmp emp = new JointEmp();
+        //emp.setEmpno(7369);
+        //emp.setEname("刘一");
+        //emp.setSal(new BigDecimal("100"));
+        List<JointEmp> jointEmps = mapper.selectEmpByConditionChoose(emp);
+        System.out.println(jointEmps);
+    }
+
+    @Test
+    public void test24() {
+        JointEmpDao mapper = sqlSession.getMapper(JointEmpDao.class);
+        JointEmp emp = new JointEmp();
+        emp.setEmpno(7369);
+        emp.setEname("刘一1");
+        //emp.setSal(new BigDecimal("1001"));
+        //emp.setComm(new BigDecimal("100"));
+        Integer count = mapper.updateEmpByEmpno(emp);
+        System.out.println(count);
     }
 }
