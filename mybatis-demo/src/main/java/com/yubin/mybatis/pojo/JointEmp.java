@@ -1,5 +1,6 @@
 package com.yubin.mybatis.pojo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -9,7 +10,7 @@ import java.util.Date;
  * @author YUBIN
  * @create 2020-08-19
  */
-public class JointEmp {
+public class JointEmp implements Serializable {
 
     private Integer empno;
 

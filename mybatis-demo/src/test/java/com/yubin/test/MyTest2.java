@@ -50,6 +50,7 @@ public class MyTest2 {
     /**
      * 一级缓存失效测试
      * 不同的sqlSession
+     * 注意:如果开启了二级缓存,注意在测试的时候先关闭二级缓存
      */
     @Test
     public void test2() {
@@ -140,5 +141,36 @@ public class MyTest2 {
         JointEmp emp2 = mapper.selectEmpByEmpno(7369);
         System.out.println(emp2);
         sqlSession.close();
+    }
+
+    /**
+     * 验证一级缓存、二级缓存查询顺序
+     */
+    @Test
+    public void test7() {
+        SqlSession sqlSession1 = sqlSessionFactory.openSession();
+        JointEmpDao mapper1 = sqlSession1.getMapper(JointEmpDao.class);
+        JointEmp emp1 = mapper1.selectEmpByEmpno(7369);
+        System.out.println(emp1);
+        sqlSession1.close();
+        System.out.println("================================");
+
+        // 这条sql语句将会从二级缓存中获取
+        SqlSession sqlSession2 = sqlSessionFactory.openSession();
+        JointEmpDao mapper2 = sqlSession2.getMapper(JointEmpDao.class);
+        JointEmp emp2 = mapper2.selectEmpByEmpno(7369);
+        System.out.println(emp2);
+
+        System.out.println("================================");
+        // 这条sql语句也是从二级缓存中获取,看日志中的缓存命中率(只有二级缓存才会打印)
+        JointEmp emp3 = mapper2.selectEmpByEmpno(7369);
+        System.out.println(emp3);
+        // 这条sql语句会从数据库中查询获取
+        JointEmp emp4 = mapper2.selectEmpByEmpno(7499);
+        System.out.println(emp4);
+        // 由于二级缓存中不存在7499这条数据的缓存,所以会从一级缓存中获取
+        JointEmp emp5 = mapper2.selectEmpByEmpno(7499);
+        System.out.println(emp5);
+        sqlSession2.close();
     }
 }

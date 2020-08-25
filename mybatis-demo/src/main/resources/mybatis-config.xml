@@ -27,6 +27,9 @@
 
         <!--开启时，任一方法的调用都会加载该对象的所有延迟加载属性。 否则，每个延迟加载属性会按需加载-->
         <setting name="aggressiveLazyLoading" value="false"/>
+
+        <!--开启二级缓存(默认即为true):全局性地开启或关闭所有映射器配置文件中已配置的任何缓存。-->
+        <setting name="cacheEnabled" value="true"/>
     </settings>
 
     <!--类型别名,表示在引入实体类的时候,可以使用别名,而不需要写完全限定名-->

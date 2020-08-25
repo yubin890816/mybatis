@@ -1,5 +1,6 @@
 package com.yubin.mybatis.pojo;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * @author YUBIN
  * @create 2020-08-24
  */
-public class JointDept {
+public class JointDept implements Serializable {
     private Integer deptno;
 
     private String dname;
