@@ -276,6 +276,7 @@ public class MyTest {
         emp.setSal(new BigDecimal("100"));
         List<JointEmp> jointEmps = mapper.selectEmpByCondition(emp);
         System.out.println(jointEmps);
+        sqlSession.close();
     }
 
     @Test
@@ -287,6 +288,7 @@ public class MyTest {
         //emp.setSal(new BigDecimal("100"));
         List<JointEmp> jointEmps = mapper.selectEmpByCondition2(emp);
         System.out.println(jointEmps);
+        sqlSession.close();
     }
 
     @Test
@@ -298,6 +300,7 @@ public class MyTest {
         empnos.add(7521);
         List<JointEmp> jointEmps = mapper.selectEmpByEmpNos(empnos);
         System.out.println(jointEmps);
+        sqlSession.close();
     }
 
     @Test
@@ -309,6 +312,7 @@ public class MyTest {
         //emp.setSal(new BigDecimal("100"));
         List<JointEmp> jointEmps = mapper.selectEmpByConditionChoose(emp);
         System.out.println(jointEmps);
+        sqlSession.close();
     }
 
     @Test
@@ -321,5 +325,7 @@ public class MyTest {
         //emp.setComm(new BigDecimal("100"));
         Integer count = mapper.updateEmpByEmpno(emp);
         System.out.println(count);
+        sqlSession.commit();
+        sqlSession.close();
     }
 }
