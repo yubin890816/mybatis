@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- 在填写标签的时候一定要注意相关配置的顺序(xml的定义分为两种 dtd和xsd 其中dtd对顺序是要要求的) -->
+<configuration>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <typeAliases>
+        <package name="com.yubin.ssm.pojo"/>
+    </typeAliases>
+</configuration>

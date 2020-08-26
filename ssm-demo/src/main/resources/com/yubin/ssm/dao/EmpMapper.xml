@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    namespace:编写接口的全类名,就是告诉要实现该配置文件是哪个接口的具体实现
+-->
+<mapper namespace="com.yubin.ssm.dao.EmpMapper">
+
+    <!--
+        在做查询的时候有时候需要关联其它对象,因此需要使用关联查询
+        可以通过下面自定义结果集的方式实现
+    -->
+    <select id="selectEmpByEmpno" resultType="com.yubin.ssm.pojo.Emp">
+        select * from emp where empno = #{empno}
+    </select>
+</mapper>
