@@ -7,7 +7,7 @@
 -->
 <mapper namespace="com.yubin.mybatis.dao.JointEmpDao">
 
-    <cache/>
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"></cache>
     <!--
         在做查询的时候有时候需要关联其它对象,因此需要使用关联查询
         可以通过下面自定义结果集的方式实现
