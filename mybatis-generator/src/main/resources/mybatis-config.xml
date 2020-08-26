@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- 在填写标签的时候一定要注意相关配置的顺序(xml的定义分为两种 dtd和xsd 其中dtd对顺序是要要求的) -->
+<configuration>
+    <!--
+        当需要引入外部的配置文件的时候,可以使用properties标签,类似于<context:property-placeholder location="..."/>
+        resource:表示从当前项目的类路径中进行加载,如果用的是idea指的是resources资源目录下的配置文件
+        url: 可以从当前文件系统的磁盘目录查找配置,也可以从网络上的资源进行引入
+    -->
+    <properties resource="dbconfig.properties"></properties>
+
+    <!--这是MyBatis中极为重要的调整设置，它们会改变MyBatis的运行时行为。-->
+    <settings>
+        <!--
+            是否开启驼峰命名自动映射，即从经典数据库列名A_COLUMN映射到经典Java属性名aColumn。默认值为false
+            解决数据库字段与属性无法字段映射的方案之一
+        -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+
+        <!--
+            开启全局的延时加载
+            延迟加载的全局开关。当开启时，所有关联对象都会延迟加载。 特定关联关系中可通过设置 fetchType 属性来覆盖该项的开关状态。
+        -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+
+        <!--开启时，任一方法的调用都会加载该对象的所有延迟加载属性。 否则，每个延迟加载属性会按需加载-->
+        <setting name="aggressiveLazyLoading" value="false"/>
+
+        <!--开启二级缓存(默认即为true):全局性地开启或关闭所有映射器配置文件中已配置的任何缓存。-->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+
+    <!--类型别名,表示在引入实体类的时候,可以使用别名,而不需要写完全限定名-->
+    <typeAliases>
+        <!--这种方式每一个具体的类都需要单独的定义,如果有100个类呢?这个配置文件还能看么?-->
+        <!--<typeAlias type="com.yubin.mybatis.pojo.User" alias="User"/>-->
+
+        <!--可以指定具体的包来保证实体类不需要写完全限定名-->
+        <package name="com.yubin.mybatis.pojo"/>
+    </typeAliases>
+
+    <!--设置自定义的类型处理器,Mybatis中默认内置了很多类型处理器,一般不需要自己来实现-->
+    <!--<typeHandlers>
+        <typeHandler handler=""></typeHandler>
+        <package name=""/>
+    </typeHandlers>-->
+
+    <!--当需要自定义对象工厂的时候实现此标签,完成结果集到java对象实例化的过程-->
+    <!--<objectFactory type=""></objectFactory>-->
+
+    <!--
+        MyBatis 允许你在映射语句执行过程中的某一点进行拦截调用。默认情况下，MyBatis 允许使用插件来拦截的方法调用包括：
+
+        Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)
+        ParameterHandler (getParameterObject, setParameters)
+        ResultSetHandler (handleResultSets, handleOutputParameters)
+        StatementHandler (prepare, parameterize, batch, update, query)
+
+        比较著名的插件有分页插件: https://pagehelper.github.io/
+    -->
+    <!--<plugins>
+        <plugin interceptor=""></plugin>
+    </plugins>-->
+
+    <!--
+        MyBatis可以配置成适应多种环境,这种机制有助于将SQL映射应用于多种数据库之中,现实情况下有多种理由需要这么做。
+        例如，开发、测试和生产环境需要有不同的配置;或者想在具有相同Schema的多个生产数据库中使用相同的SQL映射。还有许多类似的使用场景。
+        不过要记住：尽管可以配置多个环境，但每个 SqlSessionFactory 实例只能选择一种环境。
+        所以，如果你想连接两个数据库，就需要创建两个SqlSessionFactory实例,每个数据库对应一个。
+        而如果是三个数据库，就需要三个实例，依此类推
+
+        default:默认使用的环境 ID
+    -->
+    <environments default="development">
+
+        <!--配置具体的环境属性 id:表示当前环境的名称-->
+        <environment id="development">
+            <!--
+                事务管理器, 每一种数据源都需要配置具体的事务管理器
+                type: 表示事务管理器的类型
+                JDBC:这个配置直接使用了 JDBC 的提交和回滚设施，它依赖从数据源获得的连接来管理事务作用域。
+                MANAGED:这个配置几乎没做什么。它从不提交或回滚一个连接，而是让容器来管理事务的整个生命周期（比如 JEE 应用服务器的上下文）。 默认情况下它会关闭连接。然而一些容器并不希望连接被关闭，因此需要将 closeConnection 属性设置为 false 来阻止默认的关闭行为。
+            -->
+            <transactionManager type="JDBC"/>
+            <!--
+                配置具体的数据源的类型
+                type: 表示数据源的类型
+                POOLED:使用数据库连接池
+                UNPOOLED:每次都打开和关闭一个连接
+            -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driverClassName}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    
+    <!--
+        提供了不同的数据库厂商的标识,当有数据库移植的需求的时候,可以根据不同的数据库来执行不同的sql语句
+        用来扩展移植性
+    -->
+    <databaseIdProvider type="DB_VENDOR">
+        <!--
+            name: 表示数据库产商的表示
+            value: statement中 databaseId属性对应的值
+        -->
+        <property name="SQL Server" value="sqlserver"/>
+        <property name="DB2" value="db2"/>
+        <property name="Oracle" value="oracle" />
+        <property name="MySQL" value="mysql" />
+    </databaseIdProvider>
+
+    <!--
+        用来将mapper映射文件引入到配置文件中,方便程序启动的时候进行加载
+        每次在进行填写的时候需要注意,写完xml映射之后一定要添加到mybatis-config文件中
+    -->
+    <mappers>
+        <!--
+            resource: 从项目的类路径下加载对应的映射文件
+            url: 从本地磁盘目录或者网络中引入映射文件
+            class: 可以直接引入类的完全限定名,可以使用注解的方式进行使用(省略的Mapper.xml文件)
+                    如果不想以注解的方式引入呢?
+                        如果想要以class的方式引入配置文件,可以将xml文件添加到具体的类的同级目录下,注入文件名称需要和类名一致
+                            方式1、如果是maven项目的话,需要添加如下配置,因为maven之后编译java文件,需要将xml文件也添加到编译文件中
+                            <build>
+                                <resources>
+                                    <resource>
+                                        <directory>src/main/java</directory>
+                                        <includes>
+                                            <include>**/*.xml</include>
+                                        </includes>
+                                    </resource>
+                                </resources>
+                            </build>
+                            方式2、在resources资源目录先创建跟dao层一样的同级目录即可,将配置文件放到指定的目录
+        -->
+        <!--<mapper resource="EmpDao.xml"/>-->
+        <!--<mapper resource="UserDao.xml"/>-->
+        <!--<mapper class="com.yubin.mybatis.dao.UserAnnotationDao"/>-->
+        <!--<mapper class="com.yubin.mybatis.dao.UserClassDao"/>-->
+
+        <!--
+            如果需要引入多个配置文件,可以直接定义包的名称
+            但是需要注意的是: resources目录下配置的映射文件必须要和类具有相同的目录(或者放在接口下面)
+            同时需要注意的是Mapper.xml的名称和接口名称一致
+        -->
+        <package name="com.yubin.mybatis.generator.dao"/>
+    </mappers>
+</configuration>

@@ -1,0 +1,42 @@
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<!-- 总标签配置 -->
+<generatorConfiguration>
+    <!-- 具体配置的上下文标签 -->
+    <context id="simple" targetRuntime="MyBatis3Simple">
+        <!-- 指向具体数据库连接 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/demo?useSSL=false"
+                        userId="root" password="123456"/>
+
+        <!--
+            生成具体的实体类:
+                targetPackage: 指定生成的java文件目录
+                targetProject: 放在哪个工程的哪个目录下
+        -->
+        <javaModelGenerator targetPackage="com.yubin.mybatis.generator.pojo" targetProject="src/main/java"/>
+
+        <!--
+            SQL映射文件生成器
+                targetPackage: 指定生成的xml文件目录
+                targetProject: 放在哪个工程的哪个目录下
+        -->
+        <sqlMapGenerator targetPackage="com.yubin.mybatis.generator.dao" targetProject="src/main/resources"/>
+
+        <!--
+            dao接口生成器
+                type：属性是可选的,XMLMAPPER表示生成xml文件,不写的话，则使用注解
+        -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.yubin.mybatis.generator.dao" targetProject="src/main/java"/>
+
+        <!--指定要逆向生成的数据表
+            tableName:表名
+            domainObjectName:对象名
+        -->
+        <table tableName="emp" domainObjectName="Emp" enableCountByExample="false" enableDeleteByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false" enableSelectByExample="false"/>
+
+        <table tableName="dept" domainObjectName="Dept" enableCountByExample="false" enableDeleteByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false" enableSelectByExample="false"/>
+    </context>
+</generatorConfiguration>
