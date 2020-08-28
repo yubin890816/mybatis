@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    namespace:编写接口的全类名,就是告诉要实现该配置文件是哪个接口的具体实现
+-->
+<mapper namespace="com.yubin.mybatis.plus.dao.EmpMapper">
+
+    <select id="selectByCondition" resultType="com.yubin.mybatis.plus.pojo.Emp">
+        select * from tbl_emp where e_name = #{eName}
+    </select>
+</mapper>
