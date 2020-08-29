@@ -3,6 +3,7 @@ package com.yubin.mybatis.plus.pojo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.Version;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -36,6 +37,9 @@ public class Emp {
     private BigDecimal comm;
 
     private Integer deptno;
+
+    @Version
+    private Long version;
 
     public Integer getEmpno() {
         return empno;
@@ -101,6 +105,14 @@ public class Emp {
         this.deptno = deptno;
     }
 
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
     @Override
     public String toString() {
         return "Emp{" +
@@ -112,6 +124,7 @@ public class Emp {
                 ", sal=" + sal +
                 ", comm=" + comm +
                 ", deptno=" + deptno +
+                ", version=" + version +
                 '}';
     }
 }

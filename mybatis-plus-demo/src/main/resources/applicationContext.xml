@@ -45,7 +45,10 @@
         <property name="mapperLocations" value="classpath:mybatis/mapper/*.xml"/>
         <property name="plugins">
             <array>
+                <!-- 分页插件 -->
                 <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor"/>
+                <!-- 乐观锁插件 -->
+                <bean class="com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor"/>
             </array>
         </property>
     </bean>

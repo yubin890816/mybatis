@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.sql.DataSource;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -165,5 +166,41 @@ public class MyTest {
         emp.seteName("张三");
         List<Emp> emps = mapper.selectByCondition(emp);
         System.out.println(emps);
+    }
+
+    /**
+     * mybatis-plus 内置分页插件的使用示例
+     */
+    @Test
+    public void test07() {
+        Page<Emp> empPage = mapper.selectPage(new Page<Emp>(2, 3), null);
+        System.out.println("获取的记录:" + empPage.getRecords());
+
+        System.out.println("获取的总条数:" + empPage.getTotal());
+
+        System.out.println("当前页码:" + empPage.getCurrent());
+
+        System.out.println("总页码:" + empPage.getPages());
+
+        System.out.println("每页显示的条数:" + empPage.getSize());
+
+        System.out.println("是否有下一页:" + empPage.hasNext());
+
+        System.out.println("是否有上一页:" + empPage.hasPrevious());
+    }
+
+    /**
+     * mybatis-plus 内置乐观锁插件的使用示例
+     */
+    @Test
+    public void test08() {
+        Emp emp = new Emp();
+        emp.setEmpno(673);
+        emp.seteName("李四");
+        emp.setSal(new BigDecimal("1000"));
+        emp.setVersion(1L);
+
+        int updateCount = mapper.updateById(emp);
+        System.out.println(updateCount);
     }
 }
