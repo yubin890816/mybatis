@@ -49,6 +49,18 @@
                 <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor"/>
                 <!-- 乐观锁插件 -->
                 <bean class="com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor"/>
+
+                <!-- SQL执行分析插件, 避免出现全表更新和删除 -->
+                <bean class="com.baomidou.mybatisplus.extension.plugins.SqlExplainInterceptor">
+                    <property name="sqlParserList">
+                        <list>
+                            <bean class="com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <!-- 非法SQL检查插件 -->
+                <bean class="com.baomidou.mybatisplus.extension.plugins.IllegalSQLInterceptor"/>
             </array>
         </property>
     </bean>

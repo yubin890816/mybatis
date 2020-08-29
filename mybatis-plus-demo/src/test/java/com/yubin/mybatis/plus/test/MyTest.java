@@ -198,9 +198,32 @@ public class MyTest {
         emp.setEmpno(673);
         emp.seteName("李四");
         emp.setSal(new BigDecimal("1000"));
-        emp.setVersion(1L);
+        emp.setVersion(1L); // 该值为当前记录的版本号
 
         int updateCount = mapper.updateById(emp);
         System.out.println(updateCount);
+    }
+
+    /**
+     * mybatis-plus SQL执行分析插件, 避免出现全表更新和删除
+     */
+    @Test
+    public void test09() {
+        Emp emp = new Emp();
+        emp.setSal(new BigDecimal("20000"));
+
+        int updateCount = mapper.update(emp, null);
+        System.out.println(updateCount);
+    }
+
+    /**
+     * mybatis-plus 非法Sql检查插件
+     */
+    @Test
+    public void test10() {
+        QueryWrapper<Emp> wrapper = new QueryWrapper();
+        wrapper.or();
+        List<Emp> emps = mapper.selectList(wrapper);
+        System.out.println(emps);
     }
 }
