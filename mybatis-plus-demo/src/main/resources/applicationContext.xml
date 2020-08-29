@@ -83,10 +83,15 @@
         <!-- 引入DB策略配置 -->
         <property name="dbConfig" ref="dbConfig"/>
         <!-- 引入sql注入器 -->
-        <property name="sqlInjector" ref="myInjector"/>
+        <!--<property name="sqlInjector" ref="myInjector"/>-->
+
+        <!--引入公共字段填充处理类-->
+        <property name="metaObjectHandler" ref="myMetaObjectHandler"/>
     </bean>
 
     <bean id="myInjector" class="com.yubin.mybatis.plus.injector.MyInjector"/>
+
+    <bean id="myMetaObjectHandler" class="com.yubin.mybatis.plus.fill.MyMetaObjectHandler"/>
 
     <!-- mybatis-plus的DB策略配置 -->
     <bean id="dbConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig">

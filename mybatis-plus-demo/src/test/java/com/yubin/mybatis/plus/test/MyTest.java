@@ -235,4 +235,13 @@ public class MyTest {
         Integer deleteCount = mapper.deleteAll();
         System.out.println(deleteCount);
     }
+
+    /**
+     * 公共字段填充测试
+     */
+    @Test
+    public void test12() {
+        int insertCount = mapper.insert(new Emp());
+        System.out.println(insertCount);
+    }
 }
