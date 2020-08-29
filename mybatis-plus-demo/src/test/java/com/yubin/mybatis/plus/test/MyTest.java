@@ -226,4 +226,13 @@ public class MyTest {
         List<Emp> emps = mapper.selectList(wrapper);
         System.out.println(emps);
     }
+
+    /**
+     * sql注入器
+     */
+    @Test
+    public void test11() {
+        Integer deleteCount = mapper.deleteAll();
+        System.out.println(deleteCount);
+    }
 }

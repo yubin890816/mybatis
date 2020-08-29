@@ -17,4 +17,6 @@ import java.util.List;
 public interface EmpMapper extends BaseMapper<Emp> {
 
     public List<Emp> selectByCondition(Emp emp);
+
+    public Integer deleteAll();
 }

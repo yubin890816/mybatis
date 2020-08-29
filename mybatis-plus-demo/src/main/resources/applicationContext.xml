@@ -82,7 +82,11 @@
         <property name="banner" value="false"/>
         <!-- 引入DB策略配置 -->
         <property name="dbConfig" ref="dbConfig"/>
+        <!-- 引入sql注入器 -->
+        <property name="sqlInjector" ref="myInjector"/>
     </bean>
+
+    <bean id="myInjector" class="com.yubin.mybatis.plus.injector.MyInjector"/>
 
     <!-- mybatis-plus的DB策略配置 -->
     <bean id="dbConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig">
