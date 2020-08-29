@@ -31,7 +31,17 @@
     <!-- 创建SqlSessionFactory -->
     <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+
+        <!--
+            configLocation、configuration 都表示的是mybatis-config.xml配置文件的封装
+            configLocation属性表示的是mybatis-config.xml具体的路径
+            configuration属性表示的是mybatis-config.xml配置文件的Configuration对象的封装
+        -->
+        <!--<property name="configLocation" value="classpath:mybatis-config.xml"/>-->
+        <property name="configuration" ref="configuration"/>
+        <!-- 引入mybatis-plus的全局配置 -->
+        <property name="globalConfig" ref="globalConfig"/>
+
         <property name="mapperLocations" value="classpath:mybatis/mapper/*.xml"/>
         <property name="plugins">
             <array>
@@ -46,4 +56,22 @@
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
+    <!-- mybatis-plus的基本配置(Configuration 相当于mybatis的核心配置文件) -->
+    <bean id="configuration" class="com.baomidou.mybatisplus.core.MybatisConfiguration">
+        <property name="mapUnderscoreToCamelCase" value="false"/>
+    </bean>
+
+    <!-- mybatis-plus全局配置 -->
+    <bean id="globalConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig">
+        <!-- 取消mybatis-plus的banner打印 -->
+        <property name="banner" value="false"/>
+        <!-- 引入DB策略配置 -->
+        <property name="dbConfig" ref="dbConfig"/>
+    </bean>
+
+    <!-- mybatis-plus的DB策略配置 -->
+    <bean id="dbConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig">
+        <!-- 表名前缀, 此时可以去除实体类上的TableName注解 -->
+        <property name="tablePrefix" value="tbl_"/>
+    </bean>
 </beans>

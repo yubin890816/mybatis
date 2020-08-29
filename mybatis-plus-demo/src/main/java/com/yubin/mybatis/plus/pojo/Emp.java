@@ -1,8 +1,8 @@
 package com.yubin.mybatis.plus.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,7 +13,7 @@ import java.util.Date;
  * @author YUBIN
  * @create 2020-08-28
  */
-@TableName("tbl_emp")
+//@TableName("tbl_emp")
 public class Emp {
 
     /**
@@ -22,6 +22,7 @@ public class Emp {
     @TableId(value = "empno",type = IdType.AUTO)
     private Integer empno;
 
+    @TableField(value = "e_name")
     private String eName;
 
     private String job;
